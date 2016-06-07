@@ -11,25 +11,26 @@ import MapKit
 
 public class FBQuadTreeNode : NSObject {
     
-    var boundingBox:FBBoundingBox? = nil
+    var boundingBox: FBBoundingBox? = nil
     
-    var northEast:FBQuadTreeNode? = nil
-    var northWest:FBQuadTreeNode? = nil
-    var southEast:FBQuadTreeNode? = nil
-    var southWest:FBQuadTreeNode? = nil
+    var northEast: FBQuadTreeNode? = nil
+    var northWest: FBQuadTreeNode? = nil
+    var southEast: FBQuadTreeNode? = nil
+    var southWest: FBQuadTreeNode? = nil
     
     var count = 0
     
-    var annotations:[MKAnnotation] = []
+    var annotations: [MKAnnotation] = []
     
     // MARK: - Initializers
     
-    override init(){
+    override init() {
         super.init()
     }
     
-    init(boundingBox box:FBBoundingBox){
+    init(boundingBox box: FBBoundingBox){
         super.init()
+        
         boundingBox = box
     }
     
@@ -60,15 +61,14 @@ public class FBQuadTreeNode : NSObject {
     
     // MARK: - Class functions
     
-    class func FBBoundingBoxMake(x0:CGFloat, y0:CGFloat, xf:CGFloat, yf:CGFloat) -> FBBoundingBox{
-        
-        let box = FBBoundingBox(x0: x0, y0: y0, xf: xf, yf: yf)
-        return box;
+    class func FBBoundingBoxMake(x0: CGFloat, y0: CGFloat, xf: CGFloat, yf: CGFloat) -> FBBoundingBox {
+        return FBBoundingBox(x0: x0, y0: y0, xf: xf, yf: yf)
     }
     
     class func FBBoundingBoxContainsCoordinate(box:FBBoundingBox, coordinate:CLLocationCoordinate2D) -> Bool {
         let containsX:Bool = (box.x0 <= CGFloat(coordinate.latitude)) && (CGFloat(coordinate.latitude) <= box.xf)
         let containsY:Bool = (box.y0 <= CGFloat(coordinate.longitude)) && (CGFloat(coordinate.longitude) <= box.yf)
+        
         return (containsX && containsY)
     }
     
@@ -86,14 +86,14 @@ public class FBQuadTreeNode : NSObject {
     }
     
     class func FBBoundingBoxIntersectsBoundingBox(box1:FBBoundingBox, box2:FBBoundingBox) -> Bool {
-        return (box1.x0 <= box2.xf && box1.xf >= box2.x0 && box1.y0 <= box2.yf && box1.yf >= box2.y0);
+        return (box1.x0 <= box2.xf && box1.xf >= box2.x0 && box1.y0 <= box2.yf && box1.yf >= box2.y0)
     }
     
     class func FBMapRectForBoundingBox(boundingBox:FBBoundingBox) -> MKMapRect {
-        let topLeft:MKMapPoint  = MKMapPointForCoordinate(CLLocationCoordinate2DMake(CLLocationDegrees(boundingBox.x0), CLLocationDegrees(boundingBox.y0)));
-        let botRight:MKMapPoint  = MKMapPointForCoordinate(CLLocationCoordinate2DMake(CLLocationDegrees(boundingBox.xf), CLLocationDegrees(boundingBox.yf)));
+        let topLeft:MKMapPoint  = MKMapPointForCoordinate(CLLocationCoordinate2DMake(CLLocationDegrees(boundingBox.x0), CLLocationDegrees(boundingBox.y0)))
+        let botRight:MKMapPoint  = MKMapPointForCoordinate(CLLocationCoordinate2DMake(CLLocationDegrees(boundingBox.xf), CLLocationDegrees(boundingBox.yf)))
         
-        return MKMapRectMake(topLeft.x, botRight.y, fabs(botRight.x - topLeft.x), fabs(botRight.y - topLeft.y));
+        return MKMapRectMake(topLeft.x, botRight.y, fabs(botRight.x - topLeft.x), fabs(botRight.y - topLeft.y))
     }
     
 }

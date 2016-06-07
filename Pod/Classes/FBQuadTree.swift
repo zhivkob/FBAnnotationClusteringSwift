@@ -11,7 +11,7 @@ import MapKit
 
 public class FBQuadTree : NSObject {
     
-    var rootNode:FBQuadTreeNode? = nil
+    var rootNode: FBQuadTreeNode? = nil
     
     let nodeCapacity = 8
     
@@ -27,7 +27,6 @@ public class FBQuadTree : NSObject {
     }
     
     func insertAnnotation(annotation:MKAnnotation, toNode node:FBQuadTreeNode) -> Bool {
-        
         if !FBQuadTreeNode.FBBoundingBoxContainsCoordinate(node.boundingBox!, coordinate: annotation.coordinate) {
             return false
         }
@@ -58,22 +57,20 @@ public class FBQuadTree : NSObject {
             return true
         }
         
-        
         return false
-        
     }
     
-    func enumerateAnnotationsInBox(box:FBBoundingBox, callback: MKAnnotation -> Void){
+    func enumerateAnnotationsInBox(box: FBBoundingBox, callback: MKAnnotation -> Void) {
         enumerateAnnotationsInBox(box, withNode:rootNode!, callback: callback)
     }
     
-    func enumerateAnnotationsUsingBlock(callback: MKAnnotation -> Void){
-        enumerateAnnotationsInBox(FBQuadTreeNode.FBBoundingBoxForMapRect(MKMapRectWorld), withNode:rootNode!, callback:callback)
+    func enumerateAnnotationsUsingBlock(callback: MKAnnotation -> Void) {
+        enumerateAnnotationsInBox(FBQuadTreeNode.FBBoundingBoxForMapRect(MKMapRectWorld), withNode: rootNode!, callback: callback)
     }
     
-    func enumerateAnnotationsInBox(box:FBBoundingBox, withNode node:FBQuadTreeNode, callback: MKAnnotation -> Void){
+    func enumerateAnnotationsInBox(box: FBBoundingBox, withNode node: FBQuadTreeNode, callback: MKAnnotation -> Void) {
         if (!FBQuadTreeNode.FBBoundingBoxIntersectsBoundingBox(node.boundingBox!, box2: box)) {
-            return;
+            return
         }
         
         let tempArray = node.annotations
@@ -92,7 +89,6 @@ public class FBQuadTree : NSObject {
         enumerateAnnotationsInBox(box, withNode: node.northWest!, callback: callback)
         enumerateAnnotationsInBox(box, withNode: node.southEast!, callback: callback)
         enumerateAnnotationsInBox(box, withNode: node.southWest!, callback: callback)
-        
     }
     
 }
